@@ -1,0 +1,52 @@
+<project name="casurlchecker" basedir="." default="jar">
+    <property name="Name"       value="casurlchecker"/>
+    <property name="name"       value="it.unipa.cuc.casurlchecker"/>
+    <property name="version"    value="1.1.0"/>
+
+    <property name="build.dir"      value="classes"/>
+    <property name="build.classes"  value="${build.dir}"/>
+    <property name="build.tests"    value="${build.dir}/test"/>
+
+    <property name="src.dir"    value="src"/>
+    <property name="etc.dir"    value="etc"/>
+
+    <property name="jar.name"   value="${name}-${version}"/>
+    <property name="dist.name"   value="${name}-${version}"/>
+    <property name="dist.base"   value="dist"/>
+    <property name="dist.dir"   value="${dist.base}"/>
+
+    <property name="src.dist.dir" value="${dist.base}/dist-src"/>
+    <property name="src.dist.src" value="${src.dist.dir}/src"/>
+    <property name="src.dist.docs" value="${src.dist.dir}/docs"/>
+    <property name="src.dist.lib" value="${src.dist.dir}/lib"/>
+
+    <property name="bin.dist.dir" value="${dist.base}/dist-bin"/>
+
+    <property name="debug" value="true"/>
+
+    <path id="cp.libs">
+        <fileset dir="lib">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+
+	<target name="compile" description="Compile source code">
+    	<mkdir dir="${build.classes}"/>
+		<javac srcdir="${src.dir}" destdir="${build.classes}" debug="true" includeantruntime="false">
+			<classpath refid="cp.libs" />
+		</javac>
+	</target>
+
+    <target name="jar" depends="compile" description="Create the jar file">
+    	<mkdir dir="${dist.dir}"/>
+    	<jar destfile="${dist.dir}/${jar.name}.jar">
+    		<fileset dir="classes"/>
+    		<fileset dir="etc/resources"/>
+    	</jar>
+    </target>
+
+    <target name="clean">
+    	<delete dir="${build.dir}" />
+    	<delete file="${dist.dir}/${jar.name}.jar" failonerror="false"/>
+    </target>
+</project>
